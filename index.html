@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nova Dental Care | Dr. Sylvia Kune</title>
+  <style>
+    /* COLOR PALETTE & VARIABLES */
+    :root {
+      --primary: #4981ab;
+      --primary-hover: #3b6b8f;
+      --primary-light: #f0f6fa;
+      --bg: #fafbfc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius-lg: 16px;
+      --radius-md: 8px;
+      --shadow: 0 10px 25px -5px rgba(73, 129, 171, 0.1), 0 8px 10px -6px rgba(0,0,0,0.03);
+      --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.6; }
+
+    /* LAYOUT UTILS */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+    .btn {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--primary); color: #ffffff; padding: 0.8rem 1.6rem;
+      border-radius: var(--radius-md); font-weight: 600; text-decoration: none;
+      border: 2px solid var(--primary); transition: all 0.2s ease; cursor: pointer;
+    }
+    .btn:hover { background: var(--primary-hover); border-color: var(--primary-hover); }
+    .btn-outline { background: transparent; color: var(--primary); }
+    .btn-outline:hover { background: var(--primary-light); color: var(--primary); }
+
+    /* HEADER & NAV */
+    header { background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 1000; }
+    nav { display: flex; justify-content: space-between; align-items: center; height: 75px; }
+    .logo { font-size: 1.4rem; font-weight: 800; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { text-decoration: none; color: var(--text); font-weight: 500; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--primary); }
+
+    /* HERO SECTION */
+    .hero { padding: 4rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+    .hero-text h1 { font-size: 2.8rem; line-height: 1.2; color: var(--text); margin-bottom: 1rem; }
+    .hero-text span { color: var(--primary); }
+    .hero-text p { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 2rem; }
+    .hero-image { position: relative; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); }
+    .hero-image img { width: 100%; height: 400px; object-fit: cover; display: block; }
+
+    /* DOCTOR PROFILE */
+    .doctor-section { background: var(--surface); padding: 5rem 0; border-y: 1px solid var(--border); }
+    .doctor-card { display: grid; grid-template-columns: 320px 1fr; gap: 3rem; align-items: center; background: var(--primary-light); padding: 2.5rem; border-radius: var(--radius-lg); border: 1px solid var(--border); }
+    .doctor-img { width: 100%; height: 360px; object-fit: cover; border-radius: var(--radius-md); box-shadow: var(--shadow); }
+    .doctor-info h3 { font-size: 1.8rem; color: var(--primary); margin-bottom: 0.25rem; }
+    .doctor-title { font-weight: 600; color: var(--text-muted); margin-bottom: 1rem; display: block; }
+    .qualifications { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 1rem 0; }
+    .tag { background: var(--surface); color: var(--primary); border: 1px solid var(--primary); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+
+    /* SERVICES SECTION */
+    .services-section { padding: 5rem 0; }
+    .section-header { text-align: center; max-width: 600px; margin: 0 auto 3rem auto; }
+    .section-header h2 { font-size: 2.2rem; color: var(--primary); margin-bottom: 0.5rem; }
+
+    /* DYNAMIC FILTER TABS */
+    .filter-tabs { display: flex; justify-content: center; gap: 0.5rem; margin-bottom: 2.5rem; flex-wrap: wrap; }
+    .tab-btn { background: var(--surface); border: 1px solid var(--border); padding: 0.5rem 1.2rem; border-radius: 20px; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+    .tab-btn.active, .tab-btn:hover { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+
+    .services-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.5rem; }
+    .service-card { background: var(--surface); border-radius: var(--radius-md); border: 1px solid var(--border); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+    .service-card:hover { transform: translateY(-4px); box-shadow: var(--shadow); }
+    .service-thumb { width: 100%; height: 170px; object-fit: cover; background: var(--primary-light); }
+    .service-body { padding: 1.25rem; }
+    .service-body h4 { font-size: 1.1rem; color: var(--text); margin-bottom: 0.5rem; }
+    .service-body p { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* CONTACT & FOOTER */
+    .contact-section { background: var(--primary); color: #ffffff; padding: 4rem 0; }
+    .contact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .contact-card h3 { font-size: 1.3rem; margin-bottom: 1rem; border-bottom: 2px solid rgba(255,255,255,0.2); padding-bottom: 0.5rem; }
+    .contact-card p, .contact-card a { color: rgba(255,255,255,0.9); text-decoration: none; display: block; margin-bottom: 0.5rem; }
+
+    /* MODAL */
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 2000; justify-content: center; align-items: center; padding: 1rem; }
+    .modal.open { display: flex; }
+    .modal-content { background: var(--surface); border-radius: var(--radius-lg); width: 100%; max-width: 500px; padding: 2rem; position: relative; }
+    .close-modal { position: absolute; right: 1.5rem; top: 1.5rem; font-size: 1.5rem; cursor: pointer; border: none; background: none; }
+    .form-group { margin-bottom: 1.2rem; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 0.3rem; font-size: 0.9rem; }
+    .form-group input, .form-group select { width: 100%; padding: 0.7rem; border: 1px solid var(--border); border-radius: var(--radius-md); font-size: 0.95rem; }
+
+    @media (max-width: 768px) {
+      .hero, .doctor-card { grid-template-columns: 1fr; text-align: center; }
+      .doctor-img { height: 280px; }
+      .qualifications { justify-content: center; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <nav>
+        <a href="#" class="logo">Nova Dental Care</a>
+        <ul class="nav-links">
+          <li><a href="#about">About Dentist</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <button class="btn" onclick="openModal()">Book Appointment</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero container">
+    <div class="hero-text">
+      <h1>Advanced & Gentle Dental Care <span>You Can Trust</span></h1>
+      <p>Comprehensive oral healthcare utilizing state-of-the-art procedures in a hygienic and comfortable environment.</p>
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn" onclick="openModal()">Schedule Visit</button>
+        <a href="#services" class="btn btn-outline">Explore Treatments</a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <img src="Pics/Clinic.jpeg" alt="Nova Dental Care Interior" />
+    </div>
+  </section>
+
+  <!-- DOCTOR PROFILE SECTION -->
+  <section class="doctor-section" id="about">
+    <div class="container">
+      <div class="doctor-card">
+        <img src="Pics/Doctor.jpeg" alt="Dr. Sylvia Kune" class="doctor-img" />
+        <div class="doctor-info">
+          <h3>Dr. Sylvia Kune</h3>
+          <span class="doctor-title">Principal Dental Surgeon & Specialist</span>
+          <p>With over 8+ years of dedicated clinical experience, Dr. Sylvia Kune provides specialized treatment strategies tailored to each patient. Her clinical focus combines modern endodontics with precision orthodontics to restore both functionality and aesthetics.</p>
+          
+          <div class="qualifications">
+            <span class="tag">BDS</span>
+            <span class="tag">MCP - Endodontics</span>
+            <span class="tag">FAFO - Orthodontics</span>
+            <span class="tag">8+ Years Clinical Experience</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES GRID WITH THUMBNAILS -->
+  <section class="services-section container" id="services">
+    <div class="section-header">
+      <h2>Our Clinical Services</h2>
+      <p>From routine preventive care to complex surgical restorations, we offer full-scope oral healthcare.</p>
+    </div>
+
+    <!-- DYNAMIC FILTER -->
+    <div class="filter-tabs">
+      <button class="tab-btn active" onclick="filterServices('all')">All Treatments</button>
+      <button class="tab-btn" onclick="filterServices('preventive')">Preventive & Kids</button>
+      <button class="tab-btn" onclick="filterServices('restorative')">Restorative & RCT</button>
+      <button class="tab-btn" onclick="filterServices('cosmetic')">Cosmetic & Braces</button>
+    </div>
+
+    <div class="services-grid" id="servicesGrid">
+      <!-- 1. Oral Prophylaxis -->
+      <div class="service-card" data-category="preventive">
+        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=500&q=80" alt="Oral Prophylaxis" class="service-thumb" />
+        <div class="service-body">
+          <h4>1. Oral Prophylaxis</h4>
+          <p>Ultrasonic scaling and polishing to remove plaque, tartar, and prevent periodontal diseases.</p>
+        </div>
+      </div>
+
+      <!-- 2. Kids Dentistry -->
+      <div class="service-card" data-category="preventive">
+        <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=500&q=80" alt="Kids Dentistry" class="service-thumb" />
+        <div class="service-body">
+          <h4>2. Kids Dentistry</h4>
+          <p>Specialized pediatric care including fluoride applications, pit & fissure sealants, and cavity prevention.</p>
+        </div>
+      </div>
+
+      <!-- 3. Cosmetic Dentistry -->
+      <div class="service-card" data-category="cosmetic">
+        <img src="https://images.unsplash.com/photo-1606811841689-23dfddce3e95?auto=format&fit=crop&w=500&q=80" alt="Cosmetic Dentistry" class="service-thumb" />
+        <div class="service-body">
+          <h4>3. Cosmetic Dentistry</h4>
+          <p>Smile design, composite veneers, and aesthetic tooth contouring for a natural, confident smile.</p>
+        </div>
+      </div>
+
+      <!-- 4. Dental Fillings -->
+      <div class="service-card" data-category="restorative">
+        <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=500&q=80" alt="Dental Fillings" class="service-thumb" />
+        <div class="service-body">
+          <h4>4. Dental Fillings</h4>
+          <p>Tooth-colored composite restorations designed to repair decay seamlessly.</p>
+        </div>
+      </div>
+
+      <!-- 5. Complete Dentures & RPDs -->
+      <div class="service-card" data-category="restorative">
+        <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=500&q=80" alt="Complete Dentures and RPDs" class="service-thumb" />
+        <div class="service-body">
+          <h4>5. Complete Dentures & RPDs</h4>
+          <p>Full-arch complete dentures and flexible Removable Partial Dentures (RPDs) for missing teeth.</p>
+        </div>
+      </div>
+
+      <!-- 6. Teeth Whitening -->
+      <div class="service-card" data-category="cosmetic">
+        <img src="https://images.unsplash.com/photo-1571772996211-2f02c9727629?auto=format&fit=crop&w=500&q=80" alt="Teeth Whitening" class="service-thumb" />
+        <div class="service-body">
+          <h4>6. Teeth Whitening</h4>
+          <p>In-office chemical teeth bleaching to eliminate tough deep-seated enamel stains.</p>
+        </div>
+      </div>
+
+      <!-- 7. RCT (Root Canal Treatment) -->
+      <div class="service-card" data-category="restorative">
+        <img src="https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=500&q=80" alt="Root Canal Treatment" class="service-thumb" />
+        <div class="service-body">
+          <h4>7. RCT (Root Canal Treatment)</h4>
+          <p>Painless micro-endodontic therapy designed to eliminate infection and save infected natural teeth.</p>
+        </div>
+      </div>
+
+      <!-- 8. Post and Core Build Up -->
+      <div class="service-card" data-category="restorative">
+        <img src="https://images.unsplash.com/photo-1629909615184-74f495363b67?auto=format&fit=crop&w=500&q=80" alt="Post and Core Build Up" class="service-thumb" />
+        <div class="service-body">
+          <h4>8. Post & Core Build-Up</h4>
+          <p>Structural reinforcement for severely broken or root-canal treated teeth prior to crown placement.</p>
+        </div>
+      </div>
+
+      <!-- 9. Crown and Bridge -->
+      <div class="service-card" data-category="restorative">
+        <img src="https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=500&q=80" alt="Crown and Bridge" class="service-thumb" />
+        <div class="service-body">
+          <h4>9. Crown & Bridge</h4>
+          <p>High-translucency zirconia and ceramic caps to restore strength and replace missing tooth gaps.</p>
+        </div>
+      </div>
+
+      <!-- 10. Dental Braces -->
+      <div class="service-card" data-category="cosmetic">
+        <img src="https://images.unsplash.com/photo-1598256989800-fe5f95da9787?auto=format&fit=crop&w=500&q=80" alt="Dental Braces" class="service-thumb" />
+        <div class="service-body">
+          <h4>10. Dental Braces</h4>
+          <p>Orthodontic corrective treatment using metal brackets, ceramic aligners, and clear aligner systems.</p>
+        </div>
+      </div>
+
+      <!-- 11. Dental Implants -->
+      <div class="service-card" data-category="restorative">
+        <img src="https://images.unsplash.com/photo-1609840114035-3c981b782dfe?auto=format&fit=crop&w=500&q=80" alt="Dental Implants" class="service-thumb" />
+        <div class="service-body">
+          <h4>11. Dental Implants</h4>
+          <p>Permanent titanium tooth root replacements for fixed single-tooth and full-mouth rehabilitations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT FOOTER SECTION -->
+  <section class="contact-section" id="contact">
+    <div class="container contact-grid">
+      <div class="contact-card">
+        <h3>Nova Dental Care</h3>
+        <p>Providing precision endodontic, orthodontic, and family dental services.</p>
+        <p style="margin-top: 1rem; font-size: 0.85rem; opacity: 0.8;">&copy; 2026 Nova Dental Care. All Rights Reserved.</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Location</h3>
+        <p>District Hospital Road, TNK Village</p>
+        <p>Senapati, Manipur – 795106</p>
+      </div>
+
+      <div class="contact-card">
+        <h3>Contact Info</h3>
+        <a href="tel:+919876543210">📞 Phone: +91 98765 43210</a>
+        <a href="mailto:contact@novadentalcare.com">✉️ Email: contact@novadentalcare.com</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DYNAMIC APPOINTMENT MODAL -->
+  <div class="modal" id="appointmentModal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">&times;</button>
+      <h3 style="color: var(--primary); margin-bottom: 0.5rem;">Book Your Appointment</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Fill in your details and select your required treatment.</p>
+      
+      <form onsubmit="handleFormSubmit(event)">
+        <div class="form-group">
+          <label>Patient Full Name</label>
+          <input type="text" placeholder="e.g. John Doe" required />
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" placeholder="+91 98765 43210" required />
+        </div>
+        <div class="form-group">
+          <label>Select Service</label>
+          <select required>
+            <option value="">Choose a treatment...</option>
+            <option>1. Oral Prophylaxis</option>
+            <option>2. Kids Dentistry</option>
+            <option>3. Cosmetic Dentistry</option>
+            <option>4. Dental Fillings</option>
+            <option>5. Complete Dentures and RPDs</option>
+            <option>6. Teeth Whitening</option>
+            <option>7. Root Canal Treatment (RCT)</option>
+            <option>8. Post and Core Build Up</option>
+            <option>9. Crown and Bridge</option>
+            <option>10. Dental Braces</option>
+            <option>11. Dental Implants</option>
+          </select>
+        </div>
+        <button type="submit" class="btn" style="width: 100%;">Submit Request</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT FOR DYNAMIC INTERACTIONS -->
+  <script>
+    // Modal Functions
+    function openModal() {
+      document.getElementById('appointmentModal').classList.add('open');
+    }
+    function closeModal() {
+      document.getElementById('appointmentModal').classList.remove('open');
+    }
+
+    // Dynamic Service Filter
+    function filterServices(category) {
+      const cards = document.querySelectorAll('.service-card');
+      const tabs = document.querySelectorAll('.tab-btn');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      event.target.classList.add('active');
+
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Form Handler
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('Thank you! Your appointment request has been submitted to Dr. Sylvia Kune\'s team at Nova Dental Care.');
+      closeModal();
+    }
+  </script>
+</body>
+</html>
